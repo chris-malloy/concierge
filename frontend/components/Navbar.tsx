@@ -1,6 +1,7 @@
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Navbar() {
   return (
@@ -9,7 +10,7 @@ export default function Navbar() {
         <Link href="/" className="text-xl font-bold">
           Concierge App
         </Link>
-        <div>
+        <div className="flex items-center gap-4">
           <SignedOut>
             <SignInButton mode="modal">
               <Button variant="secondary">Sign In</Button>
@@ -18,6 +19,7 @@ export default function Navbar() {
           <SignedIn>
             <UserButton afterSignOutUrl="/" />
           </SignedIn>
+          <ThemeToggle />
         </div>
       </div>
     </nav>
