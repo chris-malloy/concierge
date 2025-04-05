@@ -8,6 +8,7 @@ using Concierge.Api.Dtos.Assets;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Concierge.Api.Tests;
 
@@ -169,6 +170,22 @@ public class AssetsControllerTests
         _mockAssetService.Verify(service => service.CreateAssetAsync(It.IsAny<CreateAssetDto>()), Times.Never);
     }
 
+    [Fact]
+    public async Task CreateAsset_WithInvalidModelState_ReturnsBadRequest()
+    {
+        // Arrange
+        var assetDto = new CreateAssetDto { Name = "", Type = AssetType.Equipment, CustomerId = 1 }; // Example invalid DTO (empty Name if [Required])
+        _controller.ModelState.AddModelError("Name", "The Name field is required."); // Manually add model error
+
+        // Act
+        var result = await _controller.CreateAsset(assetDto);
+
+        // Assert
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.IsAssignableFrom<SerializableError>(badRequestResult.Value); // Check if the value contains model state errors
+        _mockAssetService.Verify(service => service.CreateAssetAsync(It.IsAny<CreateAssetDto>()), Times.Never);
+    }
+
     // --- UpdateAsset Tests --- 
 
     [Fact]
@@ -233,6 +250,23 @@ public class AssetsControllerTests
         Assert.IsType<NoContentResult>(result);
         // Optionally verify the service method was called once
         _mockAssetService.Verify(service => service.UpdateAssetAsync(existingId, assetDto), Times.Once);
+    }
+
+    [Fact]
+    public async Task UpdateAsset_WithInvalidModelState_ReturnsBadRequest()
+    {
+        // Arrange
+        int validId = 1;
+        var assetDto = new UpdateAssetDto { Name = "", Type = AssetType.Equipment, CustomerId = 1 }; // Example invalid DTO
+        _controller.ModelState.AddModelError("Name", "The Name field is required."); // Manually add model error
+
+        // Act
+        var result = await _controller.UpdateAsset(validId, assetDto);
+
+        // Assert
+        var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.IsAssignableFrom<SerializableError>(badRequestResult.Value); // Check if the value contains model state errors
+        _mockAssetService.Verify(service => service.UpdateAssetAsync(It.IsAny<int>(), It.IsAny<UpdateAssetDto>()), Times.Never);
     }
 
     // --- DeleteAsset Tests --- 

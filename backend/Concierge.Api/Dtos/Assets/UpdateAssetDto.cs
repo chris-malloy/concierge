@@ -14,7 +14,7 @@ public class UpdateAssetDto
 
     [Required]
     [MaxLength(255)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     // Consider if CustomerId should be updatable
     [Required]

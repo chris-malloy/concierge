@@ -2,7 +2,7 @@ FRONTEND_DIR := $(shell pwd)/frontend
 
 define run_in_project
 	@echo "$@..."
-	cd $(FRONTEND_DIR) && npm run $@
+	npm run $@
 endef
 
 all: install test
@@ -10,7 +10,7 @@ all: install test
 
 install:
 	@echo "installing dependencies..."
-	npm install --prefix $(FRONTEND_DIR)
+	npm install
 
 test: install
 	@echo "running UI tests..."

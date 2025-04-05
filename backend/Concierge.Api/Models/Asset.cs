@@ -22,7 +22,7 @@ public class Asset
 
     [Required]
     [MaxLength(255)] // Example length constraint
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
 
     [MaxLength(100)]
     public string? SerialNumber { get; set; } // Nullable if not all assets have one

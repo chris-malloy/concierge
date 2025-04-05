@@ -54,8 +54,12 @@ public class AssetsController : ControllerBase
         {
             return BadRequest("Asset data is required.");
         }
-        // Note: Model validation based on DTO attributes is handled by ASP.NET Core automatically
-        // if (!ModelState.IsValid) { return BadRequest(ModelState); } // Optional explicit check
+
+        // Explicitly check model state, although [ApiController] handles this automatically
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
 
         var newAsset = await _assetService.CreateAssetAsync(assetDto);
 
@@ -75,7 +79,12 @@ public class AssetsController : ControllerBase
         {
             return BadRequest("Asset data is required.");
         }
-        // if (!ModelState.IsValid) { return BadRequest(ModelState); } // Optional
+
+        // Explicitly check model state, although [ApiController] handles this automatically
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
 
         var updated = await _assetService.UpdateAssetAsync(id, assetDto);
 

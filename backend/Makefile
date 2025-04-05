@@ -5,5 +5,5 @@ all: test
 
 test:
 	@echo "backend tests starting..."
-	dotnet test $(BACKEND_DIR)/Concierge.Api.Tests/Concierge.Api.Tests.csproj
+	dotnet test Concierge.Api.Tests/Concierge.Api.Tests.csproj
 	@echo "backend tests complete..."

@@ -10,7 +10,7 @@ public class CreateAssetDto
 
     [Required]
     [MaxLength(255)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     [Required]
     public int CustomerId { get; set; } // Or Guid, string etc.
