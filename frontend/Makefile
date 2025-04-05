@@ -20,6 +20,10 @@ dev: install
 	@echo "running dev server..."
 	$(call run_in_project,dev)
 
+watch: install
+	@echo "running watch server..."
+	cd $(PROJECT_DIR) && npm run test:watch
+
 build: install
 	@echo "building UI..."
 	$(call run_in_project,build)

@@ -14,4 +14,7 @@ all:
 dev:
 	$(MAKE) -C frontend dev
 
+watch:
+	$(MAKE) -C frontend watch
+
 include frontend/Makefile
