@@ -1,0 +1,29 @@
+# Use the .NET SDK image for building the application
+ARG DOTNET_VERSION=8.0
+FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION} AS build
+WORKDIR /source
+
+# Copy all backend source code first
+COPY backend/ ./backend/
+
+# Restore dependencies for the specific project
+# If you have a solution file (.sln) in the backend/ directory,
+# restoring the solution might be better: RUN dotnet restore backend/YourSolution.sln
+WORKDIR /source/backend/Concierge.Api
+RUN dotnet restore Concierge.Api.csproj
+
+# Build and publish the application for release
+# No need to change WORKDIR again as we are already in the project directory
+RUN dotnet publish Concierge.Api.csproj -c Release -o /app/publish --no-restore
+
+# Use the ASP.NET Core runtime image for the final stage
+FROM mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION} AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+
+# Expose the port the app runs on (adjust if necessary)
+EXPOSE 8080
+
+# Set the entry point to run the application DLL
+# Ensure 'Concierge.Api.dll' matches your project's output assembly name
+ENTRYPOINT ["dotnet", "Concierge.Api.dll"] 
