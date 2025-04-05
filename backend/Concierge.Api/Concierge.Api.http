@@ -1,0 +1,6 @@
+@Concierge.Api_HostAddress = http://localhost:5198
+
+GET {{Concierge.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

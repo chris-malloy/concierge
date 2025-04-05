@@ -1,0 +1,138 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+I. Core Functionality
+
+Asset Tracking (From Asset Tracking List)
+
+Track customer-owned, rented, or leased products.
+Support physical products, digital products, software licenses, telephone numbers, SaaS subscriptions, and other products.
+Differentiate between customer assets and inventory products.
+Inventory Control (From Inventory Control List)
+
+End-to-End Inventory Control: Manage purchasing, storing, reserving, and selling of inventory products.
+Purchasing: Manage purchase orders, vendors, and automated replenishment (min/max stock levels). Support drop shipping, vendor returns, and taxation.
+Storing: Track quantities across multiple locations, with valuation methods (Standard, Average, Specific). Support bin/shelf assignments and movement logs.
+Reserving: Allocate products to specific tickets.
+Selling: Recognize revenue and relieve inventory upon posting transactions, adding products to customer assets (if applicable).
+Post-Transaction: Issue credit memos, manage returns/exchanges, support Return Merchandise Authorizations (RMAs).
+Asset and Inventory Management
+
+Asset Creation:
+Bulk Import (non-managed assets).
+Manual Creation (non-managed assets).
+Posted Transactions (automatically create non-managed assets from Product Catalog products).
+RMM Integrations (auto-create and update managed assets).
+Cloud SaaS Marketplace integrations (auto-create and update managed assets).
+Asset Management:
+Support managed assets (updated via integrations).
+Support non-managed assets (manually updated).
+Allow non-managed assets to transition to managed assets (via mapping unique identifiers).
+Relate assets to one another (track dependencies and compatibility).
+Transfer assets between customer sites (retain usage and ticket history).
+Associate assets with tickets (track service history).
+Automate billing for assets (link to recurring services).
+Bring assets back into inventory (reuse, resell, reassign).
+Inventory Tracking:
+Track product quantities (On Hand, Available, Reserved, On Order, In Transit, On Hold).
+Track product movements across locations (serialized and non-serialized).
+Configurable at the product level (not all products need to be tracked).
+Stock Verification (From Inventory Control List)
+
+Physical Inventory (full counts).
+Cycle Counts (targeted counts).
+Scanning Functionality (barcode/QR code).
+Location Management (From Inventory Control List)
+
+Support multiple inventory locations.
+Track address, phone number, contact person (physical locations).
+Track vendor/provider, billing or regulatory region (virtual locations).
+Specify bins and/or shelves within locations.
+Adjustments (From Inventory Control List)
+
+Increase quantities via purchase orders, manual adjustments, returns.
+Decrease quantities via transactions, returns to vendors, adjustments.
+Telecom-Specific Functionality (From Asset Tracking List)
+
+Support CNAM (Caller Name) information for telephone number assets.
+Support E911 (Enhanced 911) functionality for telephone number assets.
+Support bulk entry of telephone number ranges.
+Warranty Tracking (From Asset Tracking List)
+
+Track manufacturer and internal warranties.
+Workflow Notifications for approaching expiration dates.
+II. Data Model
+
+Asset Types (From Asset Tracking List)
+
+Support different asset types (customizable list).
+Ship with default types: Telephone Number, SIM Card, Equipment, and License.
+Customize fields for each asset type (capture relevant data).
+Example fields: IP Address, MAC Address, Serial Number, Firmware Version, License Key, Phone Number
+Asset Attributes (From Asset Tracking List)
+
+Map Asset types to the Product Catalog.
+Populate Asset fields from Product Catalog attributes (Name, Description, Manufacturer, Model, Provider, Price).
+Track location details (room number, floor number, etc.).
+Support attaching images.
+Transaction Details: Capture transaction number, date purchased, purchase order number, and purchase order date for assets created from posted transactions.
+III. User Interface (UI) & User Experience (UX)
+
+From Inventory Control List:
+
+Product Availability Display: Show product availability when adding products to tickets and quotes.
+Stock Transfer: Allow stock transfer between locations (specify receiving location and bin/shelf).
+Labels: Design and print product labels (serial number, barcode/QR code, Product ID, Price, etc.).
+Packing Slip: Detailed summary of items being shipped for tickets/RMAs.
+Pick Ticket: Summary of items needed to fulfill tickets.
+IV. Integration Points
+
+RMM Tools: (e.g., NinjaOne) for managed assets.
+Cloud SaaS Marketplaces: (e.g., Pax8) for managed assets.
+Product Catalog: Map asset types to products and populate asset fields from product attributes.
+Tickets: Associate assets with tickets for service history tracking.
+Recurring Services: Link assets to recurring services for billing and profitability tracking.
+Commerce Hub vendors (Ingram Micro, Pax8, etc.).
+Marketplace vendors.
+AMOP (Automated Number Ordering Platform).
+API: Manage assets and inventory via the API.
+V. Reporting
+
+Asset Lifecycle Reports: Track status, history, and movement.
+
+Service History Reports: View maintenance and service activities.
+
+Warranty and Expiration Reports: Monitor warranty statuses and upcoming expirations.
+
+Profitability Reports: Analyze revenue and costs associated with assets.
+
+From Inventory Control List:
+
+Location Detail (products at each location, bin/shelf).
+Movement Logs (history of product movement).
+Product Detail (location stock quantities).
+Search Functionality (serial number, unique identifier).
+Reserved Detail (associated tickets/RMAs).
+Inventory Valuation: Support Average, Standard, and Specific valuation methods.
+Inventory Levels and Valuation Reports: Data on stock quantities and financial value.
+Stock Movement and Transaction Reports: Track inventory flow (receipts, transfers, sales).
+Aging and Obsolescence Reports: Identify slow-moving or obsolete items.
+Inventory Levels Dashboard: Visibility into current stock quantities across locations.
+Reserved vs. Available Stock Widget: Show allocation of inventory.
+Custom Reporting: Support custom reporting/dashboard creation using AI and Analytics features.
+VI. Security & Access Control
+
+Role-Based Access Control (RBAC): Secure asset creation, updates, and transfers. Secure enabling/disabling of inventory management, quantity adjustments, reserving/releasing products, and changing valuation methods.
+Audit Log: Track all asset-related activities. Record all reserving and releasing activities.
+VII. AI Capabilities
+
+Asset Health Score: Analyze usage, service history, and performance data to provide a health score.
+Custom Reporting: Support custom reporting/dashboard creation using AI and Analytics features.
+VIII. Non-Functional Requirements
+
+Automated Asset Updates: Sync with RMM tools and Cloud SaaS providers for managed assets.
+Transparency: Maintain transparency through movement logs and historical data preservation.
+Accuracy: Minimize inventory errors and ensure accurate stock counts.
+Compliance: Support regulatory tracking features (e.g., On Hold for telephone numbers).
