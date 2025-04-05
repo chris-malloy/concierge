@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import Home from '../page'; // Adjust the path to your page component
 import { redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
+import { RedirectError } from 'next/dist/client/components/redirect-error';
 
 // Mock the dependencies
 jest.mock('@clerk/nextjs/server', () => ({

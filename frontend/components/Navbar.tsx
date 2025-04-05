@@ -8,12 +8,14 @@ export default function Navbar() {
     <nav className="bg-gray-800 p-4 text-white">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="text-xl font-bold">
-          Concierge App
+          Concierge
         </Link>
         <div className="flex items-center gap-4">
           <SignedOut>
             <SignInButton mode="modal">
-              <Button variant="secondary">Sign In</Button>
+              <Button variant="secondary">
+                Sign In
+              </Button>
             </SignInButton>
           </SignedOut>
           <SignedIn>

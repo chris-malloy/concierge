@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from 'next/navigation';
-
+import Link from "next/link";
 export default async function Home() {
   const { userId } = await auth();
 
@@ -15,9 +15,9 @@ export default async function Home() {
       <h1 className="text-3xl font-bold mb-4">Welcome to Concierge</h1>
       <p className="text-lg">
         Please{" "}
-        <a href="/sign-in" className="text-blue-600 underline hover:text-blue-800">
+        <Link href="/sign-in" className="text-blue-600 underline hover:text-blue-800">
           Sign In
-        </a>
+        </Link>
         {" "}to continue.
       </p>
     </div>
