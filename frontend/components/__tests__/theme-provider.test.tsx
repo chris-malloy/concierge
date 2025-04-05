@@ -45,7 +45,7 @@ describe('ThemeProvider Component', () => {
 
   test('renders NextThemesProvider with props after mounting', async () => {
     const testProps = {
-      attribute: "class",
+      attribute: "class" as const,
       defaultTheme: "system",
       enableSystem: true,
       "data-custom": "value", // Test arbitrary prop passthrough
