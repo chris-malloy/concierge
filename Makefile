@@ -9,6 +9,10 @@ export README_DEPS ?= docs/github-action.md
 # Uses the official Cloud Posse URL for fetching.
 -include $(shell curl -sSL -o .build-harness "https://cloudposse.tools/build-harness"; echo .build-harness)
 
+export COMPOSE_BAKE=true
+
+export BACKEND_HOST_PORT=8090
+
 # --- Default Target --- 
 all: test # Make 'all' depend on the combined 'test' target
 	@echo "--- Concierge test run complete ---"
@@ -41,26 +45,23 @@ test-frontend:
 test: test-backend test-frontend
 	@echo "--- Concierge test run complete ---"
 
-# Make 'test' the default goal - Removed, 'all' is typically default if present
-# .DEFAULT_GOAL := test
 
-# Keep potentially useful targets, but they are now superseded by 'test'
-# Original 'all' implementation commented out as 'all' now calls 'test'
-# all:
-# 	@echo "concierge test run starting..."
-# 	$(MAKE) -C frontend
-# 	$(MAKE) -C backend
-# 	@echo "concierge test run complete"
 
 dev:
-	@echo "--- Starting Backend (Docker Compose) --- "
-	docker-compose -f deployment/docker-compose.yml up -d --build # Add --build to ensure image is up-to-date
+	@echo "--- Using host port $(BACKEND_HOST_PORT) for backend ---"
+	export BACKEND_HOST_PORT=$(BACKEND_HOST_PORT)
+	echo "--- Starting Backend (Docker Compose) --- "
+	docker-compose -f deployment/docker-compose.yml up -d --build
+	@echo "--- Starting Frontend Dev Server --- "
+	$(MAKE) -C frontend dev BACKEND_HOST_PORT=$(BACKEND_HOST_PORT)
+
+dev/frontend:
 	@echo "--- Starting Frontend Dev Server --- "
 	$(MAKE) -C frontend dev
 
+dev/backend:
+	@echo "--- Starting Backend (Docker Compose) --- "
+	docker-compose -f deployment/docker-compose.yml up -d --build
+
 watch:
 	$(MAKE) -C frontend watch
-
-# Includes are less necessary now that we explicitly call targets in sub-makes
-# include frontend/Makefile
-# include backend/Makefile

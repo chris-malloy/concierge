@@ -1,13 +1,14 @@
 services:
   backend:
     build:
-      context: ..  # Assuming your project root is the parent directory
+      context: ..
       dockerfile: deployment/Dockerfile.backend
     ports:
-      - "8080:8080" # Map host port 8080 to container port 8080
+      # Use an environment variable for the host port, mapping to container port 80
+      - "${BACKEND_HOST_PORT}:80"
     environment:
-      # TODO: Add any necessary environment variables
-      - NAME=DockerCompose
+      # Container always listens on port 80 internally
+      - ASPNETCORE_URLS=http://+:80
 
   # TODO: Add other services like database, frontend, etc.
 
