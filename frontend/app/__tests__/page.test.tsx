@@ -45,7 +45,7 @@ describe('Home Page (/)', () => {
       // If it doesn't throw, the assertions below will still run.
       // If it does throw, we might need to check the error type/message if specific checks are needed.
       // For now, we assume the redirect mock handles it or we just check the mock calls.
-      // console.log("Caught potential redirect error:", error.message);
+      console.error("Caught potential redirect error:", error.message);
     }
 
     // Assert: Check if redirect was called *during* the component execution

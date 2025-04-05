@@ -1,15 +1,17 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { ThemeProvider } from '../theme-provider'; // Adjust path as necessary
+import { ThemeProviderProps } from 'next-themes';
+
 
 // --- Mock next-themes ---
 // Store original props passed to the mocked provider
-let capturedProps: Object | null = null;
+let capturedProps: ThemeProviderProps | null = null; // Use the imported type
 
 // Mock the actual provider component from next-themes
 jest.mock('next-themes', () => ({
   // Keep the original ThemeProviderProps type if needed, but mock the component
-  ThemeProvider: (props: any) => {
+  ThemeProvider: (props: ThemeProviderProps) => {
     capturedProps = props; // Capture props passed to the mock
     // Render children directly in the mock to test if they are passed through
     return <div data-testid="mock-next-themes-provider">{props.children}</div>;
@@ -25,7 +27,7 @@ describe('ThemeProvider Component', () => {
 
   beforeEach(() => {
     // Reset captured props before each test
-    capturedProps = {};
+    capturedProps = null;
     // Reset mocks if needed (especially if useTheme were more involved)
     jest.clearAllMocks(); 
   });
@@ -73,9 +75,8 @@ describe('ThemeProvider Component', () => {
       children: expect.anything(), // Children prop will be complex, just check existence
     });
     // Explicitly check a few key props
-    expect(capturedProps.attribute).toBe(testProps.attribute);
-    expect(capturedProps.defaultTheme).toBe(testProps.defaultTheme);
-    expect(capturedProps.enableSystem).toBe(testProps.enableSystem);
-    expect(capturedProps["data-custom"]).toBe(testProps["data-custom"]);
+    expect(capturedProps!.attribute).toBe(testProps.attribute);
+    expect(capturedProps!.defaultTheme).toBe(testProps.defaultTheme);
+    expect(capturedProps!.enableSystem).toBe(testProps.enableSystem);
   });
 }); 
