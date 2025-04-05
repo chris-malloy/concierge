@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import Home from '../page'; // Adjust the path to your page component
 import { redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
-import { RedirectError } from 'next/dist/client/components/redirect-error';
 
 // Mock the dependencies
 jest.mock('@clerk/nextjs/server', () => ({
@@ -40,13 +39,15 @@ describe('Home Page (/)', () => {
     // It should trigger the redirect internally
     try {
       await Home();
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Intercept the redirect error if necessary (Next.js might throw an error for redirect)
       // Depending on the exact Jest/Next.js interaction, the redirect might throw
       // If it doesn't throw, the assertions below will still run.
       // If it does throw, we might need to check the error type/message if specific checks are needed.
       // For now, we assume the redirect mock handles it or we just check the mock calls.
-      console.error("Caught potential redirect error:", error.message);
+      if (error instanceof Error) {
+        console.error("Caught potential redirect error:", error.message);
+      }
     }
 
     // Assert: Check if redirect was called *during* the component execution
