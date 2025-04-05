@@ -9,6 +9,7 @@ export README_DEPS ?= docs/github-action.md
 all:
 	@echo "concierge test run starting..."
 	$(MAKE) -C frontend
+	$(MAKE) -C backend
 	@echo "concierge test run complete"
 
 dev:
@@ -18,3 +19,4 @@ watch:
 	$(MAKE) -C frontend watch
 
 include frontend/Makefile
+include backend/Makefile

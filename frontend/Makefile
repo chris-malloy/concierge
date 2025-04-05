@@ -1,8 +1,8 @@
-PROJECT_DIR := $(shell pwd)/frontend
+FRONTEND_DIR := $(shell pwd)/frontend
 
 define run_in_project
 	@echo "$@..."
-	cd $(PROJECT_DIR) && npm run $@
+	cd $(FRONTEND_DIR) && npm run $@
 endef
 
 all: install test
@@ -10,10 +10,10 @@ all: install test
 
 install:
 	@echo "installing dependencies..."
-	npm install --prefix $(PROJECT_DIR)
+	npm install --prefix $(FRONTEND_DIR)
 
 test: install
-	@echo "tests coming soon..."
+	@echo "running UI tests..."
 	$(call run_in_project,test)
 
 dev: install
@@ -22,7 +22,7 @@ dev: install
 
 watch: install
 	@echo "running watch server..."
-	cd $(PROJECT_DIR) && npm run test:watch
+	cd $(FRONTEND_DIR) && npm run test:watch
 
 build: install
 	@echo "building UI..."
