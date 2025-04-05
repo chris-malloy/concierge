@@ -1,34 +1,37 @@
 SHELL := /bin/bash
 
+# Declare all phony targets
+.PHONY: test test-backend test-frontend dev watch all
+
 # List of targets the `readme` target should call before generating the readme
 export README_DEPS ?= docs/github-action.md
 
 # Uses the official Cloud Posse URL for fetching.
 -include $(shell curl -sSL -o .build-harness "https://cloudposse.tools/build-harness"; echo .build-harness)
 
-all: test
+# --- Default Target --- 
+all: test # Make 'all' depend on the combined 'test' target
 	@echo "--- Concierge test run complete ---"
+
 # --- Backend Tests --- 
-.PHONY: test-backend
 test-backend:
 	@echo "--- Running Backend Tests --- "
 	$(MAKE) -C backend test
 
 # --- Frontend Tests --- 
-.PHONY: test-frontend
 test-frontend:
 	@echo "--- Running Frontend Tests --- "
 	$(MAKE) -C frontend test
 
 # --- All Tests --- 
-.PHONY: test
 test: test-backend test-frontend
 	@echo "--- Concierge test run complete ---"
 
-# Make 'test' the default goal
-.DEFAULT_GOAL := test
+# Make 'test' the default goal - Removed, 'all' is typically default if present
+# .DEFAULT_GOAL := test
 
 # Keep potentially useful targets, but they are now superseded by 'test'
+# Original 'all' implementation commented out as 'all' now calls 'test'
 # all:
 # 	@echo "concierge test run starting..."
 # 	$(MAKE) -C frontend
@@ -36,6 +39,9 @@ test: test-backend test-frontend
 # 	@echo "concierge test run complete"
 
 dev:
+	@echo "--- Starting Backend (Docker Compose) --- "
+	docker-compose -f deployment/docker-compose.yml up -d --build # Add --build to ensure image is up-to-date
+	@echo "--- Starting Frontend Dev Server --- "
 	$(MAKE) -C frontend dev
 
 watch:
