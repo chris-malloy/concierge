@@ -54,4 +54,4 @@ public class Asset
 
     // TODO: Add relationships (e.g., Tickets, Recurring Services)
     // public virtual ICollection<Ticket>? Tickets { get; set; }
-} 
+}

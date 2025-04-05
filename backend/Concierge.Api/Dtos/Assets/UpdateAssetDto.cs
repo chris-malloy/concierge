@@ -32,4 +32,4 @@ public class UpdateAssetDto
     public string? Model { get; set; }
 
     // Add other properties that can be updated, with validation
-} 
+}

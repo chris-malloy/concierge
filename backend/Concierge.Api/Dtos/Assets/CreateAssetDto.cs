@@ -28,4 +28,4 @@ public class CreateAssetDto
 
     // Add other properties needed for creation, with validation
     // e.g., PurchaseDate, LicenseKey etc. based on Type
-} 
+}

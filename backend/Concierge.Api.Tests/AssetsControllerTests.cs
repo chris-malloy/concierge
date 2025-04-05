@@ -316,4 +316,4 @@ public class AssetsControllerTests
         // Optionally verify the service method was called once
         _mockAssetService.Verify(service => service.DeleteAssetAsync(existingId), Times.Once);
     }
-} 
+}

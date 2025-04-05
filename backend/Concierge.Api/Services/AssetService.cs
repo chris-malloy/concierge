@@ -67,4 +67,4 @@ public class AssetService : IAssetService
         // Placeholder: Simulate finding and deleting, or not finding
         return Task.FromResult(true); // Simulate successful deletion attempt
     }
-} 
+}

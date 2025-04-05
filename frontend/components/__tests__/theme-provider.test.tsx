@@ -4,7 +4,7 @@ import { ThemeProvider } from '../theme-provider'; // Adjust path as necessary
 
 // --- Mock next-themes ---
 // Store original props passed to the mocked provider
-let capturedProps: any = null;
+let capturedProps: Object | null = null;
 
 // Mock the actual provider component from next-themes
 jest.mock('next-themes', () => ({
@@ -25,7 +25,7 @@ describe('ThemeProvider Component', () => {
 
   beforeEach(() => {
     // Reset captured props before each test
-    capturedProps = null;
+    capturedProps = {};
     // Reset mocks if needed (especially if useTheme were more involved)
     jest.clearAllMocks(); 
   });

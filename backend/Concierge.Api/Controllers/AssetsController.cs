@@ -116,4 +116,4 @@ public class AssetsController : ControllerBase
 
         return NoContent(); // Return 204 No Content on successful deletion
     }
-} 
+}

@@ -5,6 +5,8 @@ define run_in_project
 	npm run $@
 endef
 
+.PHONY: all install test dev watch build lint
+
 all: install test
 	@echo "UI tests complete"
 
@@ -27,3 +29,7 @@ watch: install
 build: install
 	@echo "building UI..."
 	$(call run_in_project,build)
+
+lint: install
+	@echo "running lint..."
+	$(call run_in_project,lint)

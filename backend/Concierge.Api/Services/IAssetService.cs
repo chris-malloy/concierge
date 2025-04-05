@@ -11,4 +11,4 @@ public interface IAssetService
     Task<Asset> CreateAssetAsync(CreateAssetDto assetDto);
     Task<bool> UpdateAssetAsync(int id, UpdateAssetDto assetDto); // Return bool indicating success/found
     Task<bool> DeleteAssetAsync(int id); // Return bool indicating success/found
-} 
+}
