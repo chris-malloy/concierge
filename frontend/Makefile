@@ -6,7 +6,7 @@ define run_in_project
 endef
 
 all: install test
-	@echo "testing UI..."
+	@echo "UI tests complete"
 
 install:
 	@echo "installing dependencies..."
@@ -14,11 +14,12 @@ install:
 
 test: install
 	@echo "tests coming soon..."
+	$(call run_in_project,test)
 
 dev: install
-	@echo "dev server coming soon..."
-	# $(call run_in_project,dev)
+	@echo "running dev server..."
+	$(call run_in_project,dev)
 
 build: install
-	@echo "building..."
-	# $(call run_in_project,build)
+	@echo "building UI..."
+	$(call run_in_project,build)
