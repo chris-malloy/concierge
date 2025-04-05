@@ -1,26 +1,30 @@
 import { render, screen } from '@testing-library/react';
 import Navbar from '../Navbar';
 
+// Define mock state at module level
+let mockClerkState = { isSignedIn: false };
+
 // Mock the Clerk components used in Navbar
 jest.mock('@clerk/nextjs', () => ({
   SignedIn: ({ children }: { children: React.ReactNode }) => 
-    (global as any).__mockClerkState?.isSignedIn ? children : null,
+    mockClerkState.isSignedIn ? children : null,
   SignedOut: ({ children }: { children: React.ReactNode }) =>
-    !(global as any).__mockClerkState?.isSignedIn ? children : null,
+    !mockClerkState.isSignedIn ? children : null,
   SignInButton: ({ children }: { children: React.ReactNode }) => 
-    !(global as any).__mockClerkState?.isSignedIn ? <div data-testid="signin-button-wrapper">{children}</div> : null,
+    !mockClerkState.isSignedIn ? <div data-testid="signin-button-wrapper">{children}</div> : null,
   UserButton: () => 
-    (global as any).__mockClerkState?.isSignedIn ? <div data-testid="user-button">Mock UserButton</div> : null,
+    mockClerkState.isSignedIn ? <div data-testid="user-button">Mock UserButton</div> : null,
 }));
 
 describe('Navbar Component', () => {
   beforeEach(() => {
     // Reset mock state before each test
-    (global as any).__mockClerkState = { isSignedIn: false };
+    mockClerkState = { isSignedIn: false };
   });
 
   test('renders Sign In button when user is signed out', () => {
-    (global as any).__mockClerkState.isSignedIn = false;
+    // State is already set by beforeEach
+    // mockClerkState = { isSignedIn: false }; 
     render(<Navbar />);
 
     // Check if the shadcn Button inside SignInButton is rendered
@@ -33,7 +37,7 @@ describe('Navbar Component', () => {
   });
 
   test('renders UserButton when user is signed in', () => {
-    (global as any).__mockClerkState.isSignedIn = true;
+    mockClerkState = { isSignedIn: true }; // Set state for this specific test
     render(<Navbar />);
 
     // Check if the UserButton mock is rendered
