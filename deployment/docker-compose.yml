@@ -5,17 +5,37 @@ services:
       dockerfile: deployment/Dockerfile.backend
     ports:
       # Use an environment variable for the host port, mapping to container port 80
-      - "${BACKEND_HOST_PORT}:80"
+      - "${BACKEND_HOST_PORT:-8090}:80"
     environment:
       # Container always listens on port 80 internally
       - ASPNETCORE_URLS=http://+:80
+      # Add DB connection string environment variable for the backend
+      - ConnectionStrings__DefaultConnection=Server=db,1433;Database=master;User ID=sa;Password=${MSSQL_SA_PASSWORD:-root123!};TrustServerCertificate=True;
+    networks:
+      - concierge_network
+    depends_on: # Simplified dependency
+      - db 
 
-  # TODO: Add other services like database, frontend, etc.
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      # WARNING: Default password is insecure. Set MSSQL_SA_PASSWORD in .env for production.
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:-root123!}" # Consistent default
+      BACKEND_HOST_PORT: "${BACKEND_HOST_PORT:-8090}"
+    ports:
+      - "1433:1433" # Default MSSQL port
+    volumes:
+      - db_data:/var/opt/mssql
+    networks:
+      - concierge_network
+    # Healthcheck removed
 
-# TODO: Define any necessary networks or volumes
-# networks:
-#   app_network:
-#     driver: bridge
-#
-# volumes:
-#   db_data: 
+  # db-setup service removed
+
+networks:
+  concierge_network:
+    driver: bridge
+
+volumes:
+  db_data: 

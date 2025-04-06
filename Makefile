@@ -10,8 +10,8 @@ export README_DEPS ?= docs/github-action.md
 -include $(shell curl -sSL -o .build-harness "https://cloudposse.tools/build-harness"; echo .build-harness)
 
 export COMPOSE_BAKE=true
-
 export BACKEND_HOST_PORT=8090
+export MSSQL_SA_PASSWORD=root123!
 
 # --- Default Target --- 
 all: lint test
@@ -60,6 +60,7 @@ dev/frontend:
 dev/backend:
 	@echo "--- Starting Backend (Docker Compose) --- "
 	docker-compose -f deployment/docker-compose.yml up -d --build
+	docker compose -f deployment/docker-compose.yml logs --follow
 
 watch:
 	$(MAKE) -C frontend watch
