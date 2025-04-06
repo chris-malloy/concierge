@@ -1,6 +1,6 @@
 "use client"; // Add use client if it interacts with client-side features or state
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Table,
   TableBody,
@@ -10,22 +10,44 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { type Asset } from "@/api/assets"; // Assuming Asset type is exported from here
+import { fetchAssets, type Asset } from "@/api/assets"; // Import fetchAssets
 
-interface AssetTableProps {
-  assets: Asset[];
-  error: string | null;
-  isLoading?: boolean; // Optional: Add loading state if needed
-}
+const AssetTable: React.FC = () => {
+  // Add state for assets, error, and loading
+  const [assets, setAssets] = useState<Asset[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-const AssetTable: React.FC<AssetTableProps> = ({ assets, error, isLoading }) => {
+  useEffect(() => {
+    const loadAssets = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const fetchedAssets = await fetchAssets();
+        setAssets(fetchedAssets);
+      } catch (e: unknown) {
+        if (e instanceof Error) {
+          setError(e.message);
+        } else {
+          setError("An unknown error occurred while fetching assets.");
+        }
+        setAssets([]); // Clear assets on error
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadAssets();
+  }, []); // Empty dependency array ensures this runs once on mount
+
   return (
     <>
       {error && (
         <div className="text-red-600 bg-red-100 border border-red-400 p-4 rounded mb-4">
           <p>Error loading assets:</p>
           <p>{error}</p>
-          <p>Please ensure the backend API is running and the URL ({process.env.NEXT_PUBLIC_API_URL}/api/assets) is correct.</p>
+          {/* Consider removing API URL from user-facing error */}
+          {/* <p>Please ensure the backend API is running and the URL ({process.env.NEXT_PUBLIC_API_URL}/api/assets) is correct.</p> */}
         </div>
       )}
 
@@ -42,7 +64,7 @@ const AssetTable: React.FC<AssetTableProps> = ({ assets, error, isLoading }) => 
           </TableRow>
         </TableHeader>
         <TableBody>
-          {isLoading && ( // Optional loading indicator
+          {isLoading && (
             <TableRow>
               <TableCell colSpan={6} className="text-center">Loading assets...</TableCell>
             </TableRow>
