@@ -29,7 +29,7 @@ dev: install
 
 watch: install
 	@echo "running watch server..."
-	cd $(FRONTEND_DIR) && npm run test:watch
+	npm run test:watch
 
 build: install
 	@echo "building UI..."

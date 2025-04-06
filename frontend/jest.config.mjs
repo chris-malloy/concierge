@@ -49,6 +49,7 @@ const config = {
 
     // Handle module aliases (this will be automatically configured by next/jest based on tsconfig.json)
     // Example: '@/(.*)$': '<rootDir>/$1' is handled automatically
+    '^@/(.*)$': '<rootDir>/$1', // Add explicit mapping
   },
   // Use this pattern to match test files
   testMatch: [
