@@ -6,6 +6,8 @@ SHELL := /bin/bash
 # List of targets the `readme` target should call before generating the readme
 export README_DEPS ?= docs/github-action.md
 
+export BACKEND_HOST_PORT=8090
+
 # Uses the official Cloud Posse URL for fetching.
 -include $(shell curl -sSL -o .build-harness "https://cloudposse.tools/build-harness"; echo .build-harness)
 
@@ -41,7 +43,7 @@ test: test/backend test/frontend
 
 dev:
 	@echo "--- Starting Backend (Docker Compose) --- "
-	docker-compose -f deployment/docker-compose.yml up -d --build # Add --build to ensure image is up-to-date
+	docker-compose -f deployment/docker-compose.yml up -d --build
 	@echo "--- Starting Frontend Dev Server --- "
 	$(MAKE) -C frontend dev
 
