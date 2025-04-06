@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import AssetTable from '../AssetTable'; // Adjust path as necessary
-import { fetchAssets } from '@/api/assets'; // Import the function to mock
+import AssetTable from '../AssetTable';
+import { fetchAssets } from '@/api/assets';
 
 // Mock the fetchAssets API call
 jest.mock('@/api/assets', () => ({
@@ -19,7 +19,7 @@ describe('<AssetTable />', () => {
   });
 
   test('displays loading state initially', () => {
-    mockedFetchAssets.mockResolvedValueOnce([]); // Mock a pending promise that doesn't resolve immediately
+    mockedFetchAssets.mockResolvedValueOnce(new Promise(() => {})); // Keep promise pending
     render(<AssetTable />);
     expect(screen.getByText(/loading assets.../i)).toBeInTheDocument();
   });
@@ -33,17 +33,15 @@ describe('<AssetTable />', () => {
 
     render(<AssetTable />);
 
-    // Wait for the loading state to disappear and data to appear
-    await waitFor(() => {
-      expect(screen.queryByText(/loading assets.../i)).not.toBeInTheDocument();
-    });
+    // Use findBy* to wait for content dependent on async state updates
+    expect(await screen.findByRole('cell', { name: /laptop a/i })).toBeInTheDocument();
 
-    // Check for table headers (optional but good practice)
+    // Verify loading is gone after finding content
+    expect(screen.queryByText(/loading assets.../i)).not.toBeInTheDocument();
+
+    // Check other elements (already rendered)
     expect(screen.getByRole('columnheader', { name: /asset id/i })).toBeInTheDocument();
     expect(screen.getByRole('columnheader', { name: /name/i })).toBeInTheDocument();
-
-    // Check for rendered asset data
-    expect(screen.getByRole('cell', { name: /laptop a/i })).toBeInTheDocument();
     expect(screen.getByRole('cell', { name: /sn111/i })).toBeInTheDocument();
     expect(screen.getByRole('cell', { name: /cust a/i })).toBeInTheDocument();
     expect(screen.getByRole('cell', { name: /license b/i })).toBeInTheDocument();
@@ -51,15 +49,15 @@ describe('<AssetTable />', () => {
   });
 
   test('displays "no assets found" when fetch is successful but returns empty array', async () => {
-    mockedFetchAssets.mockResolvedValueOnce([]); // Simulate empty response
+    mockedFetchAssets.mockResolvedValueOnce([]);
 
     render(<AssetTable />);
 
-    await waitFor(() => {
-      expect(screen.queryByText(/loading assets.../i)).not.toBeInTheDocument();
-    });
+    // Use findBy* to wait for the specific message
+    expect(await screen.findByText(/no assets found/i)).toBeInTheDocument();
 
-    expect(screen.getByText(/no assets found/i)).toBeInTheDocument();
+    // Verify loading is gone
+    expect(screen.queryByText(/loading assets.../i)).not.toBeInTheDocument();
   });
 
   test('displays error message when data fetching fails', async () => {
@@ -68,15 +66,15 @@ describe('<AssetTable />', () => {
 
     render(<AssetTable />);
 
-    await waitFor(() => {
-      expect(screen.queryByText(/loading assets.../i)).not.toBeInTheDocument();
-    });
+    // Use findBy* to wait for the error message container/text
+    expect(await screen.findByText(/error loading assets:/i)).toBeInTheDocument();
 
-    // Check if the error container is displayed
-    expect(screen.getByText(/error loading assets:/i)).toBeInTheDocument();
+    // Verify loading is gone
+    expect(screen.queryByText(/loading assets.../i)).not.toBeInTheDocument();
+
     // Check if the specific error message is displayed
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
     // Ensure no assets are shown
-    expect(screen.queryByRole('cell')).not.toBeInTheDocument(); // No data cells should be present
+    expect(screen.queryByRole('cell')).not.toBeInTheDocument();
   });
 }); 

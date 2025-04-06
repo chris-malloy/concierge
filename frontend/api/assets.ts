@@ -34,6 +34,6 @@ export async function fetchAssets(): Promise<Asset[]> {
   } catch (error) {
     console.error("Failed to fetch assets:", error);
     // Re-throw or return empty array/handle error state in UI
-    throw new Error("Could not fetch assets from the backend.");
+    throw new Error("Could not fetch assets from the backend: " + error);
   }
 } 
