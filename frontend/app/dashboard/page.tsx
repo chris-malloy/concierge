@@ -9,7 +9,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { unstable_noStore as noStore } from 'next/cache';
+import { fetchAssets, type Asset } from "@/api/assets"; // Import from the new file
 
+// Remove Asset interface
+/*
 interface Asset {
   id: string;
   name: string;
@@ -18,7 +21,10 @@ interface Asset {
   status: string;
   customer: string; // Or perhaps customerId/customerName depending on API
 }
+*/
 
+// Remove fetchAssets function
+/*
 async function fetchAssets(): Promise<Asset[]> {
   // Opt out of caching for dynamic data
   noStore();
@@ -47,6 +53,7 @@ async function fetchAssets(): Promise<Asset[]> {
     throw new Error("Could not fetch assets from the backend.");
   }
 }
+*/
 
 // Make the component async to fetch data
 export default async function DashboardPage() {
