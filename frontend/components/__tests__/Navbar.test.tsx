@@ -50,7 +50,7 @@ describe('Navbar Component', () => {
 
   test('renders the app title link', () => {
     render(<Navbar />);
-    const titleLink = screen.getByRole('link', { name: /concierge app/i });
+    const titleLink = screen.getByRole('link', { name: /Concierge/i });
     expect(titleLink).toBeInTheDocument();
     expect(titleLink).toHaveAttribute('href', '/');
   });

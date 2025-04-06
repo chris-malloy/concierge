@@ -39,7 +39,9 @@
     "eslint-config-next": "15.2.4",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "node-fetch": "^2.7.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "whatwg-encoding": "^3.1.1"
   }
 }

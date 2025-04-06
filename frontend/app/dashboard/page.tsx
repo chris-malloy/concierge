@@ -1,5 +1,4 @@
 // This page should be automatically protected by Clerk middleware
-
 import {
   Table,
   TableBody,
@@ -11,8 +10,6 @@ import {
 } from "@/components/ui/table";
 import { unstable_noStore as noStore } from 'next/cache';
 
-// Define an interface for the asset data structure
-// Adjust this based on your actual backend API response
 interface Asset {
   id: string;
   name: string;
